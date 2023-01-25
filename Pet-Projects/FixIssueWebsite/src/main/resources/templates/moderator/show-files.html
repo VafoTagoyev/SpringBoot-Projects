@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>See Files</title>
+</head>
+<body>
+      <div>
+        <h3>List of Files</h3>
+        <table>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Link</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="file:${files}">
+              <td th:text="${file.name}" />
+              <td><a th:href="@{${file.path}}">View</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+</body>
+</html>

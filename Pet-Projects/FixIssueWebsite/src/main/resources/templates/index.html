@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
+    <style>
+        :root {
+            --black: hsl(235deg 90% 10%);
+            --white: hsl(235deg 10% 90%);
+            --primary: hsl(235deg 50% 50%);
+            --primary-lightest: hsl(235deg 30% 90%);
+            --secondary: hsl(354deg 50% 50%);
+            --secondary-lighter: hsl(354deg 20% 85%);
+        }
+
+        body {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", Helvetica, Arial,
+            sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            color: var(--black);
+            background: var(--primary-lightest);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            inline-size: min(100% - 16px, 720px);
+            margin-inline: auto;
+        }
+
+        a {
+            display: inline-block;
+            color: var(--secondary);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        a::after {
+            content: "";
+            position: relative;
+            display: block;
+            block-size: 2px;
+            background: var(--secondary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 400ms;
+        }
+
+        a:hover::after,
+        a:focus::after {
+            transform: scaleX(1);
+            transition: transform 150ms;
+            transform-origin: left;
+        }
+
+        button {
+            background: #6dae67;
+            color: var(--white);
+            font-weight: 700;
+            inline-size: fit-content;
+            border: none;
+            padding: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: filter 500ms;
+        }
+
+        button:hover,
+        button:focus {
+            filter: brightness(110%);
+            transition: filter 150ms;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        div {
+            margin-block-end: 1rem;
+            position: relative;
+        }
+
+        div::before {
+            content: "";
+            display: block;
+            position: absolute;
+            inset-inline-start: -16px;
+            inline-size: 8px;
+            block-size: 100%;
+            background: var(--secondary);
+            transform: scaleY(0);
+            transition: transform 150ms;
+        }
+
+        div:focus-within::before {
+            transform: scaleY(1);
+            transition: transform 400ms;
+        }
+
+        label {
+            font-weight: 700;
+        }
+
+        aside {
+            margin-block-end: 8px;
+        }
+
+        @media (min-width: 1200px) {
+            aside {
+                position: absolute;
+                inset-block-start: 16px;
+                inset-inline-end: -8px;
+                transform: translateX(100%);
+                max-inline-size: 30ch;
+                font-weight: 300;
+            }
+
+            div:focus-within aside {
+                font-weight: 500;
+            }
+        }
+
+        input,
+        textarea {
+            box-sizing: border-box;
+            inline-size: 100%;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        form button {
+            margin-inline-end: 1rem;
+        }
+
+        .help>svg {
+            transition: transform 500ms, filter 500ms;
+        }
+
+        .help>svg:hover {
+            transform: translateY(-5%);
+            filter: drop-shadow(0 0 16px var(--secondary));
+            transition: transform 150ms, filter 300ms;
+        }
+
+        dialog {
+            background: var(--primary-lightest);
+            border: none;
+            border-block-start: 8px solid var(--secondary);
+            border-radius: 0 0 4px 4px;
+        }
+
+        dialog h1 {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>Welcome to FixIssue Website</h1>
+</header>
+            <form th:action="@{/login}" method="GET">
+                <div class="header-login" style = "position:absolute; left:1150px; top:40px;">
+                    <button type="submit" name="login">Login as Moderator</button>
+                </div>
+            </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.9/js/select2.min.js" integrity="sha512-9p/L4acAjbjIaaGXmZf0Q2bV42HetlCLbv8EP0z3rLbQED2TAFUlDvAezy7kumYqg5T8jHtDdlm1fgIsr5QzKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<main>
+    <form th:action="@{/submit}" th:object="${data}" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="firstName">Your FirstName
+                <input id="firstName" type="text" name="firstName" required="required" th:field="${data.firstName}">
+            </label>
+        </div>
+
+        <div>
+            <label for="lastName">Your LastName
+                <input id="lastName" type="text" name="lastName" required="required" th:field="${data.lastName}">
+            </label>
+        </div>
+
+        <div>
+            <label for="email">Your Email
+                <input id="email" type="text" name="email" required="required" th:field="${data.email}">
+            </label>
+        </div>
+
+        <div>
+            <label for="title">Input your issue title
+                <input id="title" type="text" name="title" required="required" th:field="${data.title}">
+            </label>
+        </div>
+
+        <div>
+            <label for="issue">Upload issue files
+                <input id="issue" type="file" name="file" required="required" accept="image/png, image/jpeg, image/jpg" multiple/>
+            </label>
+        </div>
+
+        <div>
+            <label for="tags">
+                Related Tags
+                <select id="tags" class="form-control select2" name="tags" required="required" multiple="multiple" style="width: 100%;"></select>
+
+
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                        crossorigin="anonymous"></script>
+
+                <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+                        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+                        crossorigin="anonymous"></script>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
+
+                <script>
+                    $('.select2').select2({
+                        data: ["Java", "Spring", "Spring Boot", "Math", "Design", "Backend", "Frontend"],
+                        tags: true,
+                        // maximumSelectionLength: 10,
+                        tokenSeparators: [',', ' '],
+                        placeholder: "Select or type keywords",
+                    });
+                </script>
+            </label>
+        </div>
+        <button type="submit" name="submit">Submit Issue</button>
+<!--        <output name="status"></output>-->
+    </form>
+</main>
+</body>
+
+</html>

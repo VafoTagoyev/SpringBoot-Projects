@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>PageLayout</title>
+</head>
+<body>
+<ul th:fragment="moderatorNavBar">
+    <li><a href="/moderator">Home</a></li>
+    <li><a href="/moderator/issues">Issues</a></li>
+    <li style="float:right"><a class="active" href="/home">Logout</a></li>
+</ul>
+</body>
+</html>

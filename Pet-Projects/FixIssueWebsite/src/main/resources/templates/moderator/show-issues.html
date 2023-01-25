@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Show Issues</title>
+  <meta charset="UTF-8">
+  <link rel="styleSheet" type="text/css" th:href="@{/CSS/account-layout.css}">
+
+  <style>
+    h3 {
+      color: #6dae67;
+      text-align: center;
+    }
+
+    footer {
+      color: #454548;
+      font-size: medium;
+      text-align: center;
+    }
+
+    .pagination {
+      display: inline-block;
+    }
+
+    .pagination a {
+      color: black;
+      float: right;
+      clear: right;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+  </style>
+
+</head>
+<body>
+<ul th:replace="~{page-layout :: moderatorNavBar}"></ul>
+<div class="container">
+  <h3>Issues</h3>
+  <table th:if="${issues.size() > 0 }" id="tablestyle">
+    <tr>
+      <th>Id</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Title</th>
+      <th>Related Tags</th>
+      <th>Files</th>
+    </tr>
+    <tr th:each="issue : ${issues}">
+      <td th:text="${issue.issueId}"></td>
+      <td th:text="${issue.firstName}"></td>
+      <td th:text="${issue.lastName}"></td>
+      <td th:text="${issue.email}"></td>
+      <td th:text="${issue.title}"></td>
+      <td th:text="${issue.tags}"></td>
+      <td style="width: 240px;">
+        <form th:action="@{/moderator/issues/showFiles}" method="GET">
+          <input type="submit" value="Show Issue Files" class="table" style="width: 110px; margin-right: 6px"/>
+          <input type="hidden" th:value="${issue.issueId}" name="issueId">
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<footer class="panel-footer">
+<nav aria-label="Pagination" th:if="${totalPages > 0}">
+<ul class="pagination justify-content-center">
+
+  <li class="page-item">
+    <a th:if="${currentPage > 1}" th:href="@{/moderator/issues/page/1}"><<</a>
+    <a th:unless="${currentPage > 1}" href="#"><<</a>
+  </li>
+  <li class="page-item font-weight-bold">
+    <a th:if="${currentPage > 1}" th:href="@{'/moderator/issues/page/' + ${currentPage - 1}}">Prev</a>
+    <a th:unless="${currentPage > 1}" href="#">Prev</a>
+  </li>
+  <li class="page-item font-weight-bold">
+    <a th:if="${currentPage < totalPages}" th:href="@{'/moderator/issues/page/' + ${currentPage + 1}}">Next</a>
+    <a th:unless="${currentPage < totalPages}" href="#">Next</a>
+  </li>
+
+  <li class="page-item">
+    <a th:if="${currentPage < totalPages}" th:href="@{'/moderator/issues/page/' + ${totalPages}}">>></a>
+    <a th:unless="${currentPage < totalPages}" href="#">>></a>
+  </li>
+</ul>
+</nav>
+</footer>
+</body>
+</html>
